@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L.I.M.A.C.E. — Archives Hélixiennes</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(130,110,70,.14),
+      transparent 55%
+    ),
+    #0b0d0c;
+
+  color: #d7d0b8;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  padding: 20px;
+}
+
+.archive {
+  width: min(850px,100%);
+
+  border:
+    1px solid
+    rgba(215,208,184,.35);
+
+  background:
+    rgba(20,23,21,.96);
+
+  padding: 32px;
+
+  box-shadow:
+    0 0 40px rgba(0,0,0,.8),
+    inset 0 0 30px rgba(160,130,70,.05);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.archive::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,.015) 4px
+    );
+}
+
+.symbol {
+  text-align: center;
+  font-size: 58px;
+  margin-bottom: 8px;
+}
+
+h1 {
+  text-align: center;
+  letter-spacing: 4px;
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+h2 {
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 2px;
+  opacity: .65;
+  margin-bottom: 28px;
+}
+
+.system {
+  font-family:
+    "Courier New",
+    monospace;
+
+  background: #080a09;
+
+  border-left:
+    3px solid #827348;
+
+  padding: 16px;
+
+  line-height: 1.7;
+
+  font-size: 14px;
+
+  margin-bottom: 24px;
+}
+
+.accepted {
+  color: #c9bd83;
+}
+
+.warning {
+  color: #d7b39a;
+}
+
+.archive-note {
+  font-style: italic;
+
+  border-left:
+    2px solid
+    rgba(149,132,91,.5);
+
+  padding-left: 18px;
+
+  margin: 24px 0;
+
+  line-height: 1.7;
+}
+
+.message-box {
+  margin-top: 26px;
+
+  padding:
+    26px
+    20px;
+
+  border:
+    1px solid
+    rgba(149,132,91,.6);
+
+  background:
+    #080a09;
+}
+
+.message-title {
+  text-align: center;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 12px;
+
+  opacity: .6;
+
+  letter-spacing: 2px;
+
+  margin-bottom: 22px;
+}
+
+.helix-text {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  gap:
+    10px
+    5px;
+
+  min-height: 110px;
+
+  align-items: center;
+}
+
+.helix-word {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 2px;
+
+  margin-right: 12px;
+
+  white-space: nowrap;
+}
+
+.glyph {
+  height: 42px;
+
+  width: auto;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 0 4px
+      rgba(180,55,45,.18)
+    );
+}
+
+.input-label {
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size: 13px;
+
+  letter-spacing: 1px;
+
+  margin:
+    26px
+    0
+    8px;
+}
+
+input {
+  width: 100%;
+
+  background:
+    #080a09;
+
+  border:
+    1px solid
+    rgba(149,132,91,.65);
+
+  color:
+    #e1d7b7;
+
+  padding:
+    15px;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size:
+    15px;
+
+  outline:
+    none;
+}
+
+input:focus {
+  border-color:
+    #c9bd83;
+
+  box-shadow:
+    0 0 12px
+    rgba(149,132,91,.12);
+}
+
+button.action {
+  width:
+    100%;
+
+  border:
+    1px solid
+    #95845b;
+
+  background:
+    transparent;
+
+  color:
+    #e1d7b7;
+
+  padding:
+    16px;
+
+  font-size:
+    15px;
+
+  letter-spacing:
+    2px;
+
+  cursor:
+    pointer;
+
+  transition:
+    .25s;
+
+  margin-top:
+    18px;
+}
+
+button.action:hover {
+  background:
+    rgba(149,132,91,.12);
+
+  box-shadow:
+    0 0 18px
+    rgba(149,132,91,.15);
+}
+
+button.action:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+.feedback {
+  display:
+    none;
+
+  margin-top:
+    18px;
+
+  padding:
+    16px;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  line-height:
+    1.6;
+
+  background:
+    #080a09;
+
+  border-left:
+    3px solid
+    #827348;
+}
+
+.result {
+  display:
+    none;
+
+  line-height:
+    1.8;
+}
+
+.riddle {
+  display:
+    none;
+
+  margin-top:
+    28px;
+
+  padding:
+    24px;
+
+  border:
+    1px solid
+    rgba(149,132,91,.6);
+
+  background:
+    rgba(8,10,9,.75);
+
+  text-align:
+    center;
+
+  font-size:
+    20px;
+
+  line-height:
+    1.7;
+
+  letter-spacing:
+    1px;
+}
+
+.decrypt {
+  margin-top:
+    18px;
+
+  font-family:
+    "Courier New",
+    monospace;
+
+  font-size:
+    15px;
+
+  line-height:
+    1.8;
+
+  opacity:
+    .85;
+}
+
+.small {
+  font-size:
+    12px;
+
+  opacity:
+    .45;
+
+  text-align:
+    center;
+
+  margin-top:
+    28px;
+
+  letter-spacing:
+    1px;
+}
+
+.glitch {
+  animation:
+    flicker
+    4.2s
+    infinite;
+}
+
+@keyframes flicker {
+
+  0%,
+  96%,
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+
+  97% {
+    opacity: .55;
+    transform: translateX(1px);
+  }
+
+  98% {
+    opacity: .9;
+    transform: translateX(-1px);
+  }
+
+  99% {
+    opacity: .7;
+    transform: none;
+  }
+}
+
+@media (max-width:600px) {
+
+  .archive {
+    padding:
+      22px
+      16px;
+  }
+
+  .glyph {
+    height:
+      34px;
+  }
+
+  .helix-word {
+    margin-right:
+      7px;
+
+    gap:
+      1px;
+  }
+}
+</style>
+</head>
+
+
+<body>
+
+<main class="archive">
+
+  <div class="symbol">
+    🌀
+  </div>
+
+
+  <h1>
+    L.I.M.A.C.E.
+  </h1>
+
+
+  <div class="subtitle">
+    LEXIQUE D'INTERPRÉTATION DES MESSAGES ANCIENS ET DE CORRESPONDANCE ÉCRITE
+  </div>
+
+
+
+  <!-- INTRODUCTION -->
+
+  <div id="intro">
+
+    <div class="system">
+
+      <div>
+        ARCHIVE LINGUISTIQUE :
+        03-Θ
+      </div>
+
+      <div>
+        LANGUE :
+        <span class="accepted">
+          HÉLIXIEN ANCIEN
+        </span>
+      </div>
+
+      <div>
+        SYSTÈME D'ÉCRITURE :
+        IDENTIFIÉ
+      </div>
+
+      <div>
+        ENSEIGNEMENT ANTÉRIEUR :
+        HÉLICUS PRIME
+      </div>
+
+      <div>
+        ÉPREUVE MÉMORIELLE :
+        <span class="accepted">
+          PRÊTE
+        </span>
+      </div>
+
+    </div>
+
+
+    <div class="archive-note">
+
+      <p>
+        L'épreuve suivante vise à déterminer
+        si tu as retenu quelque chose du premier
+        enseignement d'Hélicus Prime.
+      </p>
+
+      <p>
+        Il y a un an, tu as appris à reconnaître
+        et à déchiffrer l'écriture hélixienne.
+      </p>
+
+      <p>
+        Ces connaissances vont désormais
+        être mises à l'épreuve.
+      </p>
+
+      <p>
+        Un message issu des Archives
+        t'est présenté.
+      </p>
+
+      <p>
+        <strong>
+          Déchiffre-le.
+        </strong>
+      </p>
+
+    </div>
+
+
+    <button
+      class="action"
+      id="startBtn"
+    >
+      OUVRIR L'ARCHIVE LINGUISTIQUE
+    </button>
+
+  </div>
+
+
+
+  <!-- ÉPREUVE -->
+
+  <div
+    id="trial"
+    style="display:none;"
+  >
+
+    <div class="system">
+
+      <div>
+        ÉPREUVE III :
+        ACTIVE
+      </div>
+
+      <div>
+        OBJECTIF :
+        DÉCHIFFRER LE MESSAGE
+      </div>
+
+      <div>
+        RÉFÉRENCE :
+        PREMIER ENSEIGNEMENT D'HÉLICUS PRIME
+      </div>
+
+      <div>
+        ASSISTANCE :
+        <span class="warning">
+          AUCUNE
+        </span>
+      </div>
+
+    </div>
+
+
+    <div class="message-box glitch">
+
+      <div class="message-title">
+        MESSAGE HÉLIXIEN //
+        SOURCE NON ALTÉRÉE
+      </div>
+
+      <div
+        class="helix-text"
+        id="helixText"
+      ></div>
+
+    </div>
+
+
+    <div class="input-label">
+      TRANSCRIPTION DU MESSAGE :
+    </div>
+
+
+    <input
+      id="translationInput"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="Saisir la transcription en alphabet latin..."
+    >
+
+
+    <button
+      class="action"
+      id="validateBtn"
+    >
+      ANALYSER LA TRANSCRIPTION
+    </button>
+
+
+    <div
+      class="feedback"
+      id="feedback"
+    ></div>
+
+  </div>
+
+
+
+  <!-- RÉSULTAT -->
+
+  <div
+    class="result"
+    id="result"
+  >
+
+    <div class="system">
+
+      <div class="accepted">
+        TRANSCRIPTION VALIDÉE
+      </div>
+
+      <div>
+        AUTHENTICITÉ DU MESSAGE :
+        99,8 %
+      </div>
+
+      <div>
+        COMPÉTENCE LINGUISTIQUE :
+        CONFIRMÉE
+      </div>
+
+      <div>
+        ÉPREUVE III :
+        <span class="accepted">
+          VALIDÉE
+        </span>
+      </div>
+
+    </div>
+
+
+    <h2>
+      ARCHIVE RESTAURÉE
+    </h2>
+
+
+    <div class="decrypt">
+
+      « LE TROISIÈME FRAGMENT REPOSE
+      DANS LA MACHINE QUI PENSE
+      SANS CERVEAU »
+
+    </div>
+
+
+    <div class="archive-note">
+
+      <p>
+        Interprétation de l'archive :
+      </p>
+
+      <p>
+        L'expression
+        « machine qui pense sans cerveau »
+        désigne un dispositif de calcul humain.
+      </p>
+
+      <p>
+        La localisation du troisième fragment
+        peut désormais être déterminée.
+      </p>
+
+    </div>
+
+
+    <div class="system">
+
+      <div>
+        FRAGMENT CARTOGRAPHIQUE III :
+      </div>
+
+      <div class="accepted">
+        LOCALISATION DÉCHIFFRÉE
+      </div>
+
+    </div>
+
+
+    <button
+      class="action"
+      id="revealBtn"
+    >
+      AFFICHER LA NOTE DU TRÈS-ANCIEN
+    </button>
+
+
+    <div
+      class="riddle"
+      id="riddle"
+    >
+
+      <strong>
+        NOTE DU TRÈS-ANCIEN
+      </strong>
+
+      <br><br>
+
+      La machine qui pense sans cerveau
+      possède un cœur que les humains
+      protègent derrière des plaques de métal.
+
+      <br><br>
+
+      Le troisième fragment y repose.
+
+    </div>
+
+  </div>
+
+
+  <div class="small">
+    ARCHIVES HÉLIXIENNES //
+    MODULE L.I.M.A.C.E. //
+    ACCÈS III
+  </div>
+
+</main>
+
+
+
+<script>
+
+const target =
+  "LE TROISIEME FRAGMENT REPOSE DANS LA MACHINE QUI PENSE SANS CERVEAU";
+
+
+let attempts =
+  0;
+
+
+
+function normalize(text) {
+
+  return text
+
+    .normalize("NFD")
+
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    )
+
+    .toUpperCase()
+
+    .replace(
+      /[^A-Z]/g,
+      ""
+    );
+
+}
+
+
+
+function renderHelixian(text) {
+
+  const container =
+    document.getElementById(
+      "helixText"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  const words =
+    text.split(" ");
+
+
+  words.forEach(
+    word => {
+
+      const wordEl =
+        document.createElement(
+          "span"
+        );
+
+
+      wordEl.className =
+        "helix-word";
+
+
+      [...word].forEach(
+        letter => {
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+
+          img.className =
+            "glyph";
+
+
+          img.src =
+            `glyphs/${letter}.png`;
+
+
+          img.alt =
+            "symbole hélixien";
+
+
+          img.draggable =
+            false;
+
+
+          wordEl.appendChild(
+            img
+          );
+
+        }
+      );
+
+
+      container.appendChild(
+        wordEl
+      );
+
+    }
+  );
+
+}
+
+
+
+document
+  .getElementById(
+    "startBtn"
+  )
+  .onclick =
+  () => {
+
+    document
+      .getElementById(
+        "intro"
+      )
+      .style.display =
+      "none";
+
+
+    document
+      .getElementById(
+        "trial"
+      )
+      .style.display =
+      "block";
+
+
+    renderHelixian(
+      target
+    );
+
+  };
+
+
+
+function validateTranslation() {
+
+  const input =
+    document
+      .getElementById(
+        "translationInput"
+      )
+      .value;
+
+
+  const feedback =
+    document
+      .getElementById(
+        "feedback"
+      );
+
+
+  feedback.style.display =
+    "block";
+
+
+  if (
+    normalize(input) ===
+    normalize(target)
+  ) {
+
+    feedback.innerHTML =
+      `
+        <div class="accepted">
+          TRANSCRIPTION RECONNUE.
+        </div>
+
+        <br>
+
+        Séquence linguistique cohérente.
+
+        <br>
+
+        Restauration de l'archive
+        en cours...
+      `;
+
+
+    document
+      .getElementById(
+        "validateBtn"
+      )
+      .disabled =
+      true;
+
+
+    document
+      .getElementById(
+        "translationInput"
+      )
+      .disabled =
+      true;
+
+
+    setTimeout(
+      () => {
+
+        document
+          .getElementById(
+            "trial"
+          )
+          .style.display =
+          "none";
+
+
+        document
+          .getElementById(
+            "result"
+          )
+          .style.display =
+          "block";
+
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+
+      },
+      1300
+    );
+
+  }
+
+  else {
+
+    attempts++;
+
+
+    if (
+      attempts < 3
+    ) {
+
+      feedback.innerHTML =
+        `
+          <div class="warning">
+            TRANSCRIPTION NON RECONNUE.
+          </div>
+
+          <br>
+
+          Le message demeure scellé.
+
+          <br><br>
+
+          TENTATIVE :
+          ${attempts}
+        `;
+
+    }
+
+    else {
+
+      feedback.innerHTML =
+        `
+          <div class="warning">
+            TRANSCRIPTION NON RECONNUE.
+          </div>
+
+          <br>
+
+          Le message demeure scellé.
+
+          <br><br>
+
+          <div class="accepted">
+            ASSISTANCE AUTORISÉE
+          </div>
+
+          <br>
+
+          Souviens-toi du premier
+          enseignement d'Hélicus Prime.
+        `;
+
+    }
+
+  }
+
+}
+
+
+
+document
+  .getElementById(
+    "validateBtn"
+  )
+  .onclick =
+  validateTranslation;
+
+
+
+document
+  .getElementById(
+    "translationInput"
+  )
+  .addEventListener(
+    "keydown",
+    e => {
+
+      if (
+        e.key ===
+        "Enter"
+      ) {
+
+        validateTranslation();
+
+      }
+
+    }
+  );
+
+
+
+document
+  .getElementById(
+    "revealBtn"
+  )
+  .onclick =
+  () => {
+
+    document
+      .getElementById(
+        "revealBtn"
+      )
+      .style.display =
+      "none";
+
+
+    document
+      .getElementById(
+        "riddle"
+      )
+      .style.display =
+      "block";
+
+  };
+
+</script>
+
+</body>
+</html>

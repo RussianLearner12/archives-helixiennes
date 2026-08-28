@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>P.A.R.A.D.E. — Archives Hélixiennes</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        radial-gradient(
+          circle at center,
+          rgba(130, 110, 70, 0.14),
+          transparent 55%
+        ),
+        #0b0d0c;
+
+      color: #d7d0b8;
+
+      font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+      padding: 20px;
+    }
+
+    .archive {
+      width: min(780px, 100%);
+
+      border:
+        1px solid
+        rgba(215, 208, 184, 0.35);
+
+      background:
+        rgba(20, 23, 21, 0.94);
+
+      padding: 32px;
+
+      box-shadow:
+        0 0 40px rgba(0,0,0,0.8),
+        inset 0 0 30px
+        rgba(160, 130, 70, 0.05);
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    .archive::before {
+      content: "";
+
+      position: absolute;
+      inset: 0;
+
+      pointer-events: none;
+
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent,
+          transparent 3px,
+          rgba(255,255,255,0.015) 4px
+        );
+    }
+
+    .symbol {
+      text-align: center;
+      font-size: 58px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      text-align: center;
+      letter-spacing: 4px;
+      font-size: 28px;
+      margin: 0 0 8px;
+    }
+
+    h2 {
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 2px;
+      opacity: 0.65;
+      margin-bottom: 28px;
+    }
+
+    .system {
+      font-family:
+        "Courier New",
+        monospace;
+
+      background: #080a09;
+
+      border-left:
+        3px solid #827348;
+
+      padding: 16px;
+
+      line-height: 1.7;
+
+      font-size: 14px;
+
+      margin-bottom: 24px;
+    }
+
+    .accepted {
+      color: #c9bd83;
+    }
+
+    .warning {
+      color: #d7b39a;
+    }
+
+    .question-counter {
+      font-family:
+        "Courier New",
+        monospace;
+
+      opacity: 0.65;
+      margin-bottom: 12px;
+    }
+
+    .question {
+      font-size: 21px;
+      line-height: 1.45;
+      margin-bottom: 22px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer {
+      width: 100%;
+      text-align: left;
+
+      border:
+        1px solid
+        rgba(149, 132, 91, 0.65);
+
+      background: transparent;
+
+      color: #e1d7b7;
+
+      padding: 14px 16px;
+
+      font-size: 15px;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .answer:hover {
+      background:
+        rgba(149, 132, 91, 0.12);
+    }
+
+    .answer.selected {
+      background:
+        rgba(149, 132, 91, 0.18);
+
+      border-color: #c9bd83;
+    }
+
+    .feedback {
+      display: none;
+
+      margin-top: 22px;
+
+      padding: 16px;
+
+      font-family:
+        "Courier New",
+        monospace;
+
+      line-height: 1.6;
+
+      border-left:
+        3px solid #827348;
+
+      background: #080a09;
+    }
+
+    button.action {
+      width: 100%;
+
+      border:
+        1px solid #95845b;
+
+      background: transparent;
+
+      color: #e1d7b7;
+
+      padding: 16px;
+
+      font-size: 15px;
+
+      letter-spacing: 2px;
+
+      cursor: pointer;
+
+      transition: 0.25s;
+
+      margin-top: 20px;
+    }
+
+    button.action:hover {
+      background:
+        rgba(149, 132, 91, 0.12);
+
+      box-shadow:
+        0 0 18px
+        rgba(149, 132, 91, 0.15);
+    }
+
+    .progress {
+      margin-bottom: 22px;
+
+      height: 6px;
+
+      background: #080a09;
+
+      border:
+        1px solid
+        rgba(149, 132, 91, 0.45);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+
+      background: #95845b;
+
+      transition:
+        width
+        0.3s
+        ease;
+    }
+
+    .result {
+      display: none;
+      line-height: 1.8;
+    }
+
+    .diagnostic {
+      margin-top: 24px;
+    }
+
+    .metric {
+      margin: 18px 0;
+    }
+
+    .metric-name {
+      font-family:
+        "Courier New",
+        monospace;
+
+      font-size: 13px;
+
+      margin-bottom: 6px;
+    }
+
+    .metric-bar {
+      height: 8px;
+
+      border:
+        1px solid
+        rgba(149, 132, 91, 0.45);
+
+      background: #080a09;
+    }
+
+    .metric-fill {
+      height: 100%;
+
+      width: 0%;
+
+      background: #95845b;
+
+      transition:
+        width
+        1.4s
+        ease;
+    }
+
+    .metric-value {
+      margin-top: 5px;
+
+      text-align: right;
+
+      font-family:
+        "Courier New",
+        monospace;
+
+      font-size: 12px;
+
+      opacity: 0.7;
+    }
+
+    .riddle {
+      display: none;
+
+      margin-top: 28px;
+
+      padding: 24px;
+
+      border:
+        1px solid
+        rgba(149, 132, 91, 0.6);
+
+      background:
+        rgba(8, 10, 9, 0.75);
+
+      text-align: center;
+
+      font-size: 20px;
+
+      line-height: 1.7;
+
+      letter-spacing: 1px;
+    }
+
+    .small {
+      font-size: 12px;
+
+      opacity: 0.45;
+
+      text-align: center;
+
+      margin-top: 28px;
+
+      letter-spacing: 1px;
+    }
+
+    .doctor {
+      font-style: italic;
+
+      border-left:
+        2px solid
+        rgba(149, 132, 91, 0.5);
+
+      padding-left: 18px;
+
+      margin:
+        24px
+        0;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<main class="archive">
+
+  <div class="symbol">🌀</div>
+
+  <h1>P.A.R.A.D.E.</h1>
+
+  <div class="subtitle">
+    PROTOCOLE D'ANALYSE RELATIONNELLE ET D'ADÉQUATION DES DUOS D'ESCARGOTS
+  </div>
+
+
+  <!-- INTRODUCTION -->
+
+  <div id="intro">
+
+    <div class="system">
+
+      <div>
+        DOSSIER MÉDICAL : OUVERT
+      </div>
+
+      <div>
+        ESPÈCE DU SUJET :
+        <span class="accepted">
+          HELIX SAPIENS
+        </span>
+      </div>
+
+      <div>
+        NOMBRE DE TENTACULES DÉCLARÉ :
+        4
+      </div>
+
+      <div>
+        COQUILLE :
+        <span class="warning">
+          NON DÉTECTÉE
+        </span>
+      </div>
+
+      <div>
+        PROTOCOLE :
+        P.A.R.A.D.E.
+      </div>
+
+    </div>
+
+
+    <div class="doctor">
+
+      <p>
+        Note du praticien :
+      </p>
+
+      <p>
+        L'absence complète de coquille est inhabituelle,
+        mais ne constitue pas à elle seule un motif
+        d'exclusion.
+      </p>
+
+      <p>
+        Une malformation congénitale reste l'hypothèse
+        privilégiée.
+      </p>
+
+      <p>
+        Le sujet semble également présenter une taille
+        exceptionnellement élevée pour un gastéropode.
+      </p>
+
+      <p>
+        Procédons.
+      </p>
+
+      <p>
+        — Le Doc
+      </p>
+
+    </div>
+
+
+    <button
+      class="action"
+      id="startBtn"
+    >
+      COMMENCER L'EXAMEN
+    </button>
+
+  </div>
+
+
+
+  <!-- QUESTIONNAIRE -->
+
+  <div
+    id="quiz"
+    style="display:none;"
+  >
+
+    <div class="progress">
+
+      <div
+        class="progress-bar"
+        id="progressBar"
+      ></div>
+
+    </div>
+
+
+    <div
+      class="question-counter"
+      id="counter"
+    ></div>
+
+
+    <div
+      class="question"
+      id="question"
+    ></div>
+
+
+    <div
+      class="answers"
+      id="answers"
+    ></div>
+
+
+    <div
+      class="feedback"
+      id="feedback"
+    ></div>
+
+
+    <button
+      class="action"
+      id="nextBtn"
+      style="display:none;"
+    >
+      QUESTION SUIVANTE
+    </button>
+
+  </div>
+
+
+
+  <!-- RÉSULTAT -->
+
+  <div
+    class="result"
+    id="result"
+  >
+
+    <div class="system">
+
+      <div>
+        EXAMEN TERMINÉ
+      </div>
+
+      <div>
+        ANALYSE DU PROFIL...
+      </div>
+
+      <div class="accepted">
+        DONNÉES EXPLOITABLES
+      </div>
+
+    </div>
+
+
+    <h2>
+      RAPPORT DU DOC
+    </h2>
+
+
+    <div class="diagnostic">
+
+      <div class="metric">
+
+        <div class="metric-name">
+          COMPATIBILITÉ GÉNÉRALE
+        </div>
+
+        <div class="metric-bar">
+          <div
+            class="metric-fill"
+            id="compatibilityBar"
+          ></div>
+        </div>
+
+        <div
+          class="metric-value"
+          id="compatibilityValue"
+        ></div>
+
+      </div>
+
+
+      <div class="metric">
+
+        <div class="metric-name">
+          STABILITÉ INTER-HÉLIXIENNE
+        </div>
+
+        <div class="metric-bar">
+          <div
+            class="metric-fill"
+            id="stabilityBar"
+          ></div>
+        </div>
+
+        <div
+          class="metric-value"
+          id="stabilityValue"
+        ></div>
+
+      </div>
+
+
+      <div class="metric">
+
+        <div class="metric-name">
+          TOLÉRANCE AU PARTENAIRE
+        </div>
+
+        <div class="metric-bar">
+          <div
+            class="metric-fill"
+            id="toleranceBar"
+          ></div>
+        </div>
+
+        <div
+          class="metric-value"
+          id="toleranceValue"
+        ></div>
+
+      </div>
+
+
+      <div class="metric">
+
+        <div class="metric-name">
+          INSTINCT GASTÉROPODE
+        </div>
+
+        <div class="metric-bar">
+          <div
+            class="metric-fill"
+            id="snailBar"
+          ></div>
+        </div>
+
+        <div
+          class="metric-value"
+          id="snailValue"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="doctor"
+      id="doctorConclusion"
+    ></div>
+
+
+    <div class="system">
+
+      <div class="accepted">
+        CONCLUSION :
+        ASSOCIATION RECOMMANDÉE
+      </div>
+
+      <div>
+        ÉPREUVE II :
+        VALIDÉE
+      </div>
+
+      <div>
+        FRAGMENT CARTOGRAPHIQUE II :
+        LOCALISATION AUTORISÉE
+      </div>
+
+    </div>
+
+
+    <button
+      class="action"
+      id="revealBtn"
+    >
+      LOCALISER LE FRAGMENT II
+    </button>
+
+
+    <div
+      class="riddle"
+      id="riddle"
+    >
+
+      <strong>
+        COORDONNÉES DE RÉCUPÉRATION
+      </strong>
+
+      <br><br>
+
+      Les Hélixiens conservent
+      leurs connaissances dans la mémoire
+      des anciens.
+
+      <br><br>
+
+      Les humains, plus primitifs,
+      préfèrent les enfermer
+      entre des centaines de feuilles.
+
+      <br><br>
+
+      Cherche là où
+      les histoires dorment
+      debout.
+
+    </div>
+
+  </div>
+
+
+  <div class="small">
+    ARCHIVES HÉLIXIENNES //
+    SERVICE MÉDICAL //
+    PROTOCOLE P.A.R.A.D.E.
+  </div>
+
+</main>
+
+
+
+<script>
+
+const questions = [
+
+  {
+    question:
+      "Votre partenaire s'approche lentement de vous, tentacules déployés. Quelle est votre réaction instinctive ?",
+
+    answers: [
+      "Je déploie immédiatement mes tentacules en retour.",
+      "Je me rétracte légèrement dans ma coquille par prudence.",
+      "J'établis un contact oculaire prolongé entre tentacules supérieurs.",
+      "Je produis une quantité de mucus socialement appropriée."
+    ],
+
+    comments: [
+      "RÉACTION RÉCIPROQUE DÉTECTÉE. Comportement social acceptable.",
+      "RÉFLEXE DE RÉTRACTION NORMAL. Niveau de prudence satisfaisant.",
+      "CONTACT OCULAIRE TENTACULAIRE. Intimité élevée détectée.",
+      "PRODUCTION DE MUCUS SOCIALE. Très bonne maîtrise des conventions."
+    ]
+  },
+
+
+  {
+    question:
+      "Vous devez partir vivre trois mois dans une colonie hélixienne. Quel objet humain emportez-vous en priorité ?",
+
+    answers: [
+      "Un téléphone.",
+      "Un oreiller.",
+      "De la nourriture.",
+      "Dodiou et les Koots."
+    ],
+
+    comments: [
+      "OBJET TECHNOLOGIQUE SÉLECTIONNÉ. Attachement persistant aux coutumes humaines.",
+      "OREILLER SÉLECTIONNÉ. Inutile pour une espèce équipée d'une coquille, mais le Doc prend note.",
+      "NOURRITURE SÉLECTIONNÉE. Instinct de survie intact.",
+      "DODIOU ET LES KOOTS SÉLECTIONNÉS. Réponse enregistrée. Le Doc refuse de poser des questions supplémentaires."
+    ]
+  },
+
+
+  {
+    question:
+      "Votre partenaire vient de parcourir près de quatre mètres pour vous rejoindre. Comment accueillez-vous cet effort considérable ?",
+
+    answers: [
+      "Je parcours les vingt derniers centimètres pour partager l'effort.",
+      "Je lui offre immédiatement une feuille fraîche.",
+      "Je reste immobile. Il arrivera bien éventuellement.",
+      "Je contacte les secours. Quatre mètres est une distance déraisonnable."
+    ],
+
+    comments: [
+      "EFFORT PARTAGÉ. Très bon comportement de couple.",
+      "APPORT NUTRITIONNEL IMMÉDIAT. Excellent réflexe.",
+      "PATIENCE HÉLIXIENNE REMARQUABLE.",
+      "RÉACTION PRUDENTE. Quatre mètres restent effectivement préoccupants."
+    ]
+  },
+
+
+  {
+    question:
+      "Pendant votre sommeil, votre partenaire utilise accidentellement votre coquille comme oreiller. Vous…",
+
+    answers: [
+      "Ne bougez surtout pas. Il a l'air confortable.",
+      "Rentrez progressivement dans la coquille jusqu'à provoquer son départ.",
+      "Produisez un signal de détresse hélixien réglementaire.",
+      "Acceptez. La coquille conjugale implique certains sacrifices."
+    ],
+
+    comments: [
+      "TOLÉRANCE ÉLEVÉE.",
+      "TECHNIQUE D'ÉVACUATION PASSIVE-AGRESSIVE VALIDÉE.",
+      "PROTOCOLE DE DÉTRESSE CORRECTEMENT APPLIQUÉ.",
+      "SENS DU SACRIFICE CONJUGAL : SUPÉRIEUR À LA MOYENNE."
+    ]
+  },
+
+
+  {
+    question:
+      "Votre partenaire vous annonce qu'il a trouvé une magnifique source de calcium. Quelle réaction vous semble la plus appropriée ?",
+
+    answers: [
+      "Je lui demande immédiatement les coordonnées.",
+      "Je propose que nous la consommions ensemble.",
+      "Je vérifie d'abord qu'il ne s'agit pas encore d'un morceau de mur.",
+      "Je lui offre officiellement une place dans ma coquille."
+    ],
+
+    comments: [
+      "INTÉRÊT MINÉRAL IMMÉDIAT. Très bon instinct.",
+      "PARTAGE DES RESSOURCES. Compatibilité alimentaire élevée.",
+      "MÉFIANCE JUSTIFIÉE. Le dossier mentionne plusieurs incidents architecturaux.",
+      "ENGAGEMENT COQUILLIER MAJEUR DÉTECTÉ."
+    ]
+  },
+
+
+  {
+    question:
+      "Au cours d'une promenade romantique, votre partenaire avance dans la mauvaise direction depuis onze minutes. Que faites-vous ?",
+
+    answers: [
+      "Je le suis. Onze minutes supplémentaires ne représentent après tout que quelques centimètres.",
+      "Je laisse une trace de mucus indiquant le bon chemin.",
+      "Je lui signale son erreur avec mes tentacules inférieurs.",
+      "Nous déclarons notre position actuelle comme nouvelle destination."
+    ],
+
+    comments: [
+      "PATIENCE REMARQUABLE.",
+      "SYSTÈME DE NAVIGATION PAR MUCUS : APPROUVÉ.",
+      "COMMUNICATION TENTACULAIRE FONCTIONNELLE.",
+      "ADAPTATION ENVIRONNEMENTALE EXCEPTIONNELLE. Le Doc apprécie."
+    ]
+  },
+
+
+  {
+    question:
+      "Le Doc découvre que votre partenaire présente une coquille légèrement endommagée. Quelle est votre priorité ?",
+
+    answers: [
+      "Trouver du calcium.",
+      "Le mettre à l'abri et surveiller la réparation.",
+      "Lui rappeler qu'on lui avait pourtant dit de ne pas escalader cette pierre.",
+      "Les trois, dans cet ordre."
+    ],
+
+    comments: [
+      "PRISE EN CHARGE MINÉRALE APPROPRIÉE.",
+      "COMPORTEMENT PROTECTEUR DÉTECTÉ.",
+      "RÉPRIMANDE POST-TRAUMATIQUE. Humain, mais compréhensible.",
+      "PROTOCOLE COMPLET. Le Doc n'a rien à ajouter."
+    ]
+  },
+
+
+  {
+    question:
+      "Votre partenaire disparaît mystérieusement derrière une feuille de salade. Après combien de temps commencez-vous à vous inquiéter ?",
+
+    answers: [
+      "Immédiatement.",
+      "Après cinq minutes.",
+      "Après une heure.",
+      "Jamais. Une feuille de salade constitue un motif parfaitement légitime de disparition."
+    ],
+
+    comments: [
+      "ATTACHEMENT ÉLEVÉ. Vigilance peut-être excessive.",
+      "SEUIL D'INQUIÉTUDE ACCEPTABLE.",
+      "PATIENCE HÉLIXIENNE CONFIRMÉE.",
+      "RAISONNEMENT PARFAITEMENT CONFORME AUX NORMES HÉLIXIENNES."
+    ]
+  },
+
+
+  {
+    question:
+      "Lors de la parade nuptiale, votre partenaire sort un dard d'amour. Votre première pensée est :",
+
+    answers: [
+      "« Enfin. »",
+      "« Le Doc avait donc raison. »",
+      "« Est-ce vraiment réglementaire ? »",
+      "« J'aurais dû lire les conditions générales de l'épreuve. »"
+    ],
+
+    comments: [
+      "RÉACTION ÉTONNAMMENT ENTHOUSIASTE.",
+      "CONFIANCE DANS LE CORPS MÉDICAL : EXCELLENTE.",
+      "PRUDENCE ADMINISTRATIVE APPROUVÉE.",
+      "LECTURE DES CONDITIONS GÉNÉRALES RECOMMANDÉE AVANT TOUTE PARADE FUTURE."
+    ]
+  },
+
+
+  {
+    question:
+      "Le Conseil hélixien vous informe qu'une incompatibilité majeure a été détectée : votre partenaire préfère dormir à une température supérieure de 0,7 °C à la vôtre. Quelle décision prenez-vous ?",
+
+    answers: [
+      "Rupture immédiate. Les chiffres sont formels.",
+      "Demander une contre-expertise.",
+      "Ajuster progressivement la température de la mousse conjugale.",
+      "Rejeter les conclusions du Conseil et conserver le partenaire."
+    ],
+
+    comments: [
+      "OBÉISSANCE STATISTIQUE PRÉOCCUPANTE.",
+      "ESPRIT CRITIQUE DÉTECTÉ.",
+      "CAPACITÉ DE COMPROMIS ÉLEVÉE.",
+      "ATTACHEMENT AU PARTENAIRE CONFIRMÉ MALGRÉ LES RECOMMANDATIONS ADMINISTRATIVES."
+    ]
+  }
+
+];
+
+
+let currentQuestion = 0;
+
+let choices = [];
+
+const intro =
+  document.getElementById("intro");
+
+const quiz =
+  document.getElementById("quiz");
+
+const result =
+  document.getElementById("result");
+
+const questionEl =
+  document.getElementById("question");
+
+const answersEl =
+  document.getElementById("answers");
+
+const counterEl =
+  document.getElementById("counter");
+
+const feedbackEl =
+  document.getElementById("feedback");
+
+const nextBtn =
+  document.getElementById("nextBtn");
+
+const progressBar =
+  document.getElementById("progressBar");
+
+
+document
+  .getElementById("startBtn")
+  .onclick = () => {
+
+    intro.style.display =
+      "none";
+
+    quiz.style.display =
+      "block";
+
+    showQuestion();
+
+  };
+
+
+function showQuestion() {
+
+  const q =
+    questions[currentQuestion];
+
+  counterEl.textContent =
+    `QUESTION ${currentQuestion + 1} / ${questions.length}`;
+
+  progressBar.style.width =
+    `${(currentQuestion / questions.length) * 100}%`;
+
+  questionEl.textContent =
+    q.question;
+
+  answersEl.innerHTML =
+    "";
+
+  feedbackEl.style.display =
+    "none";
+
+  feedbackEl.innerHTML =
+    "";
+
+  nextBtn.style.display =
+    "none";
+
+
+  q.answers.forEach(
+    (answer, index) => {
+
+      const button =
+        document.createElement("button");
+
+      button.className =
+        "answer";
+
+      button.textContent =
+        String.fromCharCode(65 + index)
+        + " — "
+        + answer;
+
+      button.onclick =
+        () => selectAnswer(
+          index,
+          button
+        );
+
+      answersEl.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+function selectAnswer(
+  index,
+  selectedButton
+) {
+
+  const q =
+    questions[currentQuestion];
+
+  const buttons =
+    answersEl.querySelectorAll(
+      ".answer"
+    );
+
+
+  buttons.forEach(
+    button => {
+
+      button.disabled =
+        true;
+
+    }
+  );
+
+
+  selectedButton.classList.add(
+    "selected"
+  );
+
+
+  choices.push(index);
+
+
+  feedbackEl.style.display =
+    "block";
+
+
+  feedbackEl.innerHTML =
+    `
+      <div class="accepted">
+        RÉPONSE ENREGISTRÉE.
+      </div>
+
+      <br>
+
+      ${q.comments[index]}
+    `;
+
+
+  nextBtn.style.display =
+    "block";
+
+}
+
+
+nextBtn.onclick = () => {
+
+  currentQuestion++;
+
+
+  if (
+    currentQuestion <
+    questions.length
+  ) {
+
+    showQuestion();
+
+  }
+
+  else {
+
+    showResult();
+
+  }
+
+};
+
+
+function showResult() {
+
+  quiz.style.display =
+    "none";
+
+  result.style.display =
+    "block";
+
+
+  /*
+    Les valeurs sont volontairement
+    toujours très élevées.
+
+    On ajoute juste une petite variation
+    selon les réponses pour donner
+    l'impression que le test calcule
+    réellement quelque chose.
+  */
+
+
+  const total =
+    choices.reduce(
+      (a, b) => a + b,
+      0
+    );
+
+
+  const compatibility =
+    Math.min(
+      99,
+      94 + (total % 5)
+    );
+
+
+  const stability =
+    Math.min(
+      99,
+      91 + (total % 7)
+    );
+
+
+  const tolerance =
+    Math.min(
+      99,
+      93 + (total % 6)
+    );
+
+
+  const snail =
+    Math.min(
+      99,
+      89 + (total % 10)
+    );
+
+
+  setTimeout(
+    () => animateMetric(
+      "compatibilityBar",
+      "compatibilityValue",
+      compatibility
+    ),
+    400
+  );
+
+
+  setTimeout(
+    () => animateMetric(
+      "stabilityBar",
+      "stabilityValue",
+      stability
+    ),
+    700
+  );
+
+
+  setTimeout(
+    () => animateMetric(
+      "toleranceBar",
+      "toleranceValue",
+      tolerance
+    ),
+    1000
+  );
+
+
+  setTimeout(
+    () => animateMetric(
+      "snailBar",
+      "snailValue",
+      snail
+    ),
+    1300
+  );
+
+
+  const doctor =
+    document.getElementById(
+      "doctorConclusion"
+    );
+
+
+  doctor.innerHTML =
+    `
+      <p>
+        Conclusion du praticien :
+      </p>
+
+      <p>
+        Le sujet présente une compatibilité
+        exceptionnellement élevée avec son partenaire.
+      </p>
+
+      <p>
+        Certaines anomalies persistent :
+        absence de coquille,
+        locomotion beaucoup trop rapide
+        et utilisation fréquente des membres inférieurs
+        plutôt que du pied musculaire réglementaire.
+      </p>
+
+      <p>
+        Ces particularités ne semblent toutefois
+        pas compromettre la stabilité du duo.
+      </p>
+
+      <p>
+        À vrai dire, nous avons cherché
+        plusieurs raisons de déconseiller
+        cette association.
+      </p>
+
+      <p>
+        Nous n'en avons trouvé aucune
+        suffisamment sérieuse.
+      </p>
+
+      <p>
+        — Le Doc
+      </p>
+    `;
+
+}
+
+
+function animateMetric(
+  barId,
+  valueId,
+  value
+) {
+
+  document
+    .getElementById(barId)
+    .style.width =
+    `${value}%`;
+
+
+  let displayed =
+    0;
+
+
+  const interval =
+    setInterval(
+      () => {
+
+        displayed++;
+
+
+        document
+          .getElementById(valueId)
+          .textContent =
+          `${displayed}%`;
+
+
+        if (
+          displayed >= value
+        ) {
+
+          clearInterval(
+            interval
+          );
+
+        }
+
+      },
+      15
+    );
+
+}
+
+
+document
+  .getElementById("revealBtn")
+  .onclick = () => {
+
+    document
+      .getElementById("revealBtn")
+      .style.display =
+      "none";
+
+
+    document
+      .getElementById("riddle")
+      .style.display =
+      "block";
+
+  };
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E.C.H.O. — Archives Hélixiennes</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at center, rgba(130, 110, 70, 0.14), transparent 55%),
+        #0b0d0c;
+      color: #d7d0b8;
+      font-family: Georgia, "Times New Roman", serif;
+      padding: 20px;
+    }
+
+    .archive {
+      width: min(760px, 100%);
+      border: 1px solid rgba(215, 208, 184, 0.35);
+      background: rgba(20, 23, 21, 0.94);
+      padding: 32px;
+      box-shadow:
+        0 0 40px rgba(0,0,0,0.8),
+        inset 0 0 30px rgba(160, 130, 70, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .archive::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent,
+          transparent 3px,
+          rgba(255,255,255,0.015) 4px
+        );
+    }
+
+    .symbol {
+      text-align: center;
+      font-size: 58px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      text-align: center;
+      letter-spacing: 4px;
+      font-size: 28px;
+      margin: 0 0 8px;
+    }
+
+    h2 {
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 2px;
+      opacity: 0.65;
+      margin-bottom: 28px;
+    }
+
+    .system {
+      font-family: "Courier New", monospace;
+      background: #080a09;
+      border-left: 3px solid #827348;
+      padding: 16px;
+      line-height: 1.7;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .accepted {
+      color: #c9bd83;
+    }
+
+    .wrong {
+      color: #d7b39a;
+    }
+
+    .question-counter {
+      font-family: "Courier New", monospace;
+      opacity: 0.65;
+      margin-bottom: 12px;
+    }
+
+    .question {
+      font-size: 21px;
+      line-height: 1.45;
+      margin-bottom: 22px;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+    }
+
+    .answer {
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(149, 132, 91, 0.65);
+      background: transparent;
+      color: #e1d7b7;
+      padding: 14px 16px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .answer:hover {
+      background: rgba(149, 132, 91, 0.12);
+    }
+
+    .answer:disabled {
+      cursor: default;
+      opacity: 0.7;
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 22px;
+      padding: 16px;
+      font-family: "Courier New", monospace;
+      line-height: 1.6;
+      border-left: 3px solid #827348;
+      background: #080a09;
+    }
+
+    button.action {
+      width: 100%;
+      border: 1px solid #95845b;
+      background: transparent;
+      color: #e1d7b7;
+      padding: 16px;
+      font-size: 15px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: 0.25s;
+      margin-top: 20px;
+    }
+
+    button.action:hover {
+      background: rgba(149, 132, 91, 0.12);
+      box-shadow: 0 0 18px rgba(149, 132, 91, 0.15);
+    }
+
+    .progress {
+      margin-bottom: 22px;
+      height: 6px;
+      background: #080a09;
+      border: 1px solid rgba(149, 132, 91, 0.45);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #95845b;
+      transition: width 0.3s ease;
+    }
+
+    .result {
+      display: none;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    .score {
+      font-size: 42px;
+      margin: 18px 0;
+      color: #c9bd83;
+    }
+
+    .riddle {
+      display: none;
+      margin-top: 28px;
+      padding: 24px;
+      border: 1px solid rgba(149, 132, 91, 0.6);
+      background: rgba(8, 10, 9, 0.75);
+      text-align: center;
+      font-size: 20px;
+      line-height: 1.7;
+      letter-spacing: 1px;
+    }
+
+    .small {
+      font-size: 12px;
+      opacity: 0.45;
+      text-align: center;
+      margin-top: 28px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="archive">
+
+    <div class="symbol">🌀</div>
+
+    <h1>E.C.H.O.</h1>
+
+    <div class="subtitle">
+      ÉVALUATION DES CONNAISSANCES HÉLIXIENNES ORDINAIRES
+    </div>
+
+    <div id="quiz">
+
+      <div class="system">
+        <div>PROCÉDURE D'ADMISSION : ACTIVE</div>
+        <div>ESPÈCE ANALYSÉE : HOMO SAPIENS</div>
+        <div class="accepted">SEUIL DE VALIDATION : 70 %</div>
+        <div>NOMBRE DE TENTATIVES : ILLIMITÉ</div>
+      </div>
+
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="question-counter" id="counter"></div>
+
+      <div class="question" id="question"></div>
+
+      <div class="answers" id="answers"></div>
+
+      <div class="feedback" id="feedback"></div>
+
+      <button class="action" id="nextBtn" style="display:none;">
+        QUESTION SUIVANTE
+      </button>
+
+    </div>
+
+    <div class="result" id="result">
+
+      <div class="system">
+        <div>ÉVALUATION TERMINÉE</div>
+        <div>CALCUL DU PROFIL HÉLIXIEN...</div>
+      </div>
+
+      <div class="score" id="scoreDisplay"></div>
+
+      <div id="resultText"></div>
+
+      <button class="action" id="revealBtn" style="display:none;">
+        LOCALISER LE FRAGMENT I
+      </button>
+
+      <button class="action" id="restartBtn" style="display:none;">
+        RETENTER L'ÉPREUVE
+      </button>
+
+      <div class="riddle" id="riddle">
+        <strong>COORDONNÉES DE RÉCUPÉRATION</strong>
+        <br><br>
+        Là où le froid suspend l'œuvre du temps,
+        <br><br>
+        là où les aliments attendent sans vieillir,
+        <br><br>
+        repose le premier fragment.
+      </div>
+
+    </div>
+
+    <div class="small">
+      ARCHIVES HÉLIXIENNES // PROCÉDURE E.C.H.O.
+    </div>
+
+  </main>
+
+<script>
+
+const questions = [
+  {
+    question: "Chez Helix pomatia, où se situe le pneumostome ?",
+    answers: [
+      "Sous le pied, près de la tête",
+      "Sur le côté droit du manteau",
+      "À l'extrémité d'un tentacule inférieur",
+      "Dans l'ombilic de la coquille"
+    ],
+    correct: 1,
+    hint: "INDICE : il s'agit d'une ouverture respiratoire située dans la région du manteau."
+  },
+
+  {
+    question: "Chez un escargot terrestre stylommatophore comme Helix pomatia, où se trouvent généralement les yeux ?",
+    answers: [
+      "À l'extrémité des deux tentacules supérieurs",
+      "À la base des deux tentacules supérieurs",
+      "À l'extrémité des quatre tentacules",
+      "Sous la tête, près de la bouche"
+    ],
+    correct: 0,
+    hint: "INDICE : regarde la paire de tentacules la plus longue."
+  },
+
+  {
+    question: "Qu'est-ce qu'une radula ?",
+    answers: [
+      "Une glande produisant le mucus",
+      "Une membrane servant aux échanges respiratoires",
+      "Un organe buccal muni de nombreuses petites dents",
+      "Une structure qui ferme la coquille pendant l'hiver"
+    ],
+    correct: 2,
+    hint: "INDICE : elle intervient directement dans l'alimentation."
+  },
+
+  {
+    question: "Lorsqu'un Helix pomatia entre en hibernation, que peut-il produire à l'ouverture de sa coquille ?",
+    answers: [
+      "Un opercule osseux permanent",
+      "Un épiphragme de mucus",
+      "Une seconde coquille provisoire",
+      "Une membrane issue du pied"
+    ],
+    correct: 1,
+    hint: "INDICE : cette structure temporaire limite notamment les pertes d'eau."
+  },
+
+  {
+    question: "Laquelle de ces affirmations concernant Helix pomatia est correcte ?",
+    answers: [
+      "Les individus sont exclusivement mâles ou femelles",
+      "Ils changent obligatoirement de sexe au cours de leur vie",
+      "Ils sont hermaphrodites simultanés",
+      "Seuls les individus âgés deviennent hermaphrodites"
+    ],
+    correct: 2,
+    hint: "INDICE : un même individu mature possède les deux fonctions reproductrices."
+  },
+
+  {
+    question: "À quoi sert principalement le fameux « dard d'amour » chez certains escargots terrestres ?",
+    answers: [
+      "À immobiliser le partenaire",
+      "À déposer directement les spermatozoïdes",
+      "À transférer un mucus favorisant le succès reproductif du donneur",
+      "À déterminer lequel des deux individus jouera le rôle femelle"
+    ],
+    correct: 2,
+    hint: "INDICE : le dard n'est pas lui-même l'organe qui transfère les spermatozoïdes."
+  },
+
+  {
+    question: "Comment reconnaît-on classiquement une coquille dextre lorsque l'apex est placé vers le haut et l'ouverture face à soi ?",
+    answers: [
+      "L'ouverture se trouve à gauche",
+      "L'ouverture se trouve à droite",
+      "L'ombilic est toujours absent",
+      "Les tours s'enroulent verticalement sans direction latérale"
+    ],
+    correct: 1,
+    hint: "INDICE : « dextre » désigne le côté droit."
+  },
+
+  {
+    question: "Chez Lymnaea stagnalis, la direction d'enroulement de la coquille présente quelle particularité génétique remarquable ?",
+    answers: [
+      "Elle dépend uniquement de la température d'incubation",
+      "Elle dépend directement du chromosome sexuel",
+      "Elle peut être déterminée par le génotype maternel",
+      "Elle est totalement aléatoire"
+    ],
+    correct: 2,
+    hint: "INDICE : le phénotype de la descendance peut dépendre du génotype de la mère."
+  },
+
+  {
+    question: "Pourquoi le calcium est-il particulièrement important pour Helix pomatia ?",
+    answers: [
+      "Il constitue sa principale source d'énergie",
+      "Il est indispensable à la croissance et à l'entretien de la coquille",
+      "Il permet au mucus de devenir adhésif",
+      "Il déclenche l'hibernation"
+    ],
+    correct: 1,
+    hint: "INDICE : pense à la composition minérale de la coquille."
+  },
+
+  {
+    question: "Laquelle de ces affirmations sur les limaces est la plus exacte ?",
+    answers: [
+      "Les limaces constituent un groupe totalement distinct des escargots",
+      "Toutes les limaces sont dépourvues de toute trace de coquille",
+      "La réduction de la coquille est apparue plusieurs fois indépendamment au cours de l'évolution",
+      "Toutes les limaces descendent d'un unique ancêtre sans coquille"
+    ],
+    correct: 2,
+    hint: "INDICE : « limace » décrit surtout une morphologie, pas un unique groupe évolutif."
+  }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let shuffledQuestions = [];
+
+const questionEl = document.getElementById("question");
+const answersEl = document.getElementById("answers");
+const counterEl = document.getElementById("counter");
+const feedbackEl = document.getElementById("feedback");
+const nextBtn = document.getElementById("nextBtn");
+const quizEl = document.getElementById("quiz");
+const resultEl = document.getElementById("result");
+const scoreDisplay = document.getElementById("scoreDisplay");
+const resultText = document.getElementById("resultText");
+const restartBtn = document.getElementById("restartBtn");
+const revealBtn = document.getElementById("revealBtn");
+const riddle = document.getElementById("riddle");
+const progressBar = document.getElementById("progressBar");
+
+function shuffle(array) {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
+function startQuiz() {
+  currentQuestion = 0;
+  score = 0;
+  shuffledQuestions = shuffle(questions);
+
+  quizEl.style.display = "block";
+  resultEl.style.display = "none";
+  restartBtn.style.display = "none";
+  revealBtn.style.display = "none";
+  riddle.style.display = "none";
+
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = shuffledQuestions[currentQuestion];
+
+  counterEl.textContent =
+    `QUESTION ${currentQuestion + 1} / ${shuffledQuestions.length}`;
+
+  progressBar.style.width =
+    `${(currentQuestion / shuffledQuestions.length) * 100}%`;
+
+  questionEl.textContent = q.question;
+  answersEl.innerHTML = "";
+  feedbackEl.style.display = "none";
+  feedbackEl.innerHTML = "";
+  nextBtn.style.display = "none";
+
+  q.answers.forEach((answer, index) => {
+    const button = document.createElement("button");
+    button.className = "answer";
+    button.textContent =
+      String.fromCharCode(65 + index) + " — " + answer;
+
+    button.onclick = () => selectAnswer(index);
+
+    answersEl.appendChild(button);
+  });
+}
+
+function selectAnswer(index) {
+  const q = shuffledQuestions[currentQuestion];
+
+  const buttons =
+    answersEl.querySelectorAll(".answer");
+
+  buttons.forEach(button => {
+    button.disabled = true;
+  });
+
+  feedbackEl.style.display = "block";
+
+  if (index === q.correct) {
+
+    score++;
+
+    feedbackEl.innerHTML = `
+      <div class="accepted">
+        RÉPONSE ACCEPTÉE.
+      </div>
+    `;
+
+  } else {
+
+    feedbackEl.innerHTML = `
+      <div class="wrong">
+        RÉPONSE INCORRECTE.
+      </div>
+      <br>
+      ${q.hint}
+    `;
+  }
+
+  nextBtn.style.display = "block";
+}
+
+nextBtn.onclick = () => {
+  currentQuestion++;
+
+  if (currentQuestion < shuffledQuestions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+};
+
+function showResult() {
+  quizEl.style.display = "none";
+  resultEl.style.display = "block";
+
+  const percentage = score * 10;
+
+  scoreDisplay.textContent =
+    `${score}/10 — ${percentage}%`;
+
+  if (score >= 7) {
+
+    resultText.innerHTML = `
+      <h2>ÉPREUVE VALIDÉE</h2>
+
+      <p>
+        Le Conseil reconnaît officiellement que vos connaissances
+        dépassent celles du mammifère moyen.
+      </p>
+
+      <p>
+        Votre maîtrise des affaires gastéropodes est jugée suffisante
+        pour poursuivre la procédure d'intégration.
+      </p>
+
+      <div class="system">
+        <div class="accepted">
+          STATUT : COMPÉTENCE BIOLOGIQUE CONFIRMÉE
+        </div>
+
+        <div>
+          ÉPREUVE I : VALIDÉE
+        </div>
+
+        <div>
+          FRAGMENT CARTOGRAPHIQUE I :
+          LOCALISATION AUTORISÉE
+        </div>
+      </div>
+    `;
+
+    revealBtn.style.display = "block";
+
+  } else {
+
+    resultText.innerHTML = `
+      <h2>ÉPREUVE NON VALIDÉE</h2>
+
+      <p>
+        Plusieurs lacunes préoccupantes ont été détectées.
+      </p>
+
+      <p>
+        Aucun bannissement n'est prévu à ce stade.
+        Le Conseil autorise une nouvelle tentative.
+      </p>
+
+      <div class="system">
+        <div>
+          SCORE REQUIS : 7/10
+        </div>
+
+        <div>
+          TENTATIVES RESTANTES : ∞
+        </div>
+      </div>
+    `;
+
+    restartBtn.style.display = "block";
+  }
+}
+
+revealBtn.onclick = () => {
+  revealBtn.style.display = "none";
+  riddle.style.display = "block";
+};
+
+restartBtn.onclick = startQuiz;
+
+startQuiz();
+
+</script>
+
+</body>
+</html>
