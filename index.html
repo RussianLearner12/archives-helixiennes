@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archives Hélixiennes</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at center, rgba(130, 110, 70, 0.14), transparent 55%),
+        #0b0d0c;
+      color: #d7d0b8;
+      font-family: Georgia, "Times New Roman", serif;
+      padding: 20px;
+    }
+
+    .archive {
+      width: min(680px, 100%);
+      border: 1px solid rgba(215, 208, 184, 0.35);
+      background: rgba(20, 23, 21, 0.92);
+      padding: 32px;
+      box-shadow:
+        0 0 40px rgba(0,0,0,0.8),
+        inset 0 0 30px rgba(160, 130, 70, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .archive::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent,
+          transparent 3px,
+          rgba(255,255,255,0.015) 4px
+        );
+    }
+
+    .symbol {
+      text-align: center;
+      font-size: 64px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      text-align: center;
+      letter-spacing: 4px;
+      font-size: 28px;
+      margin: 0 0 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 2px;
+      opacity: 0.65;
+      margin-bottom: 30px;
+    }
+
+    .system {
+      font-family: "Courier New", monospace;
+      background: #080a09;
+      border-left: 3px solid #827348;
+      padding: 16px;
+      line-height: 1.7;
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .status {
+      opacity: 0.75;
+    }
+
+    .accepted {
+      color: #c9bd83;
+    }
+
+    button {
+      width: 100%;
+      border: 1px solid #95845b;
+      background: transparent;
+      color: #e1d7b7;
+      padding: 16px;
+      font-size: 15px;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    button:hover {
+      background: rgba(149, 132, 91, 0.12);
+      box-shadow: 0 0 18px rgba(149, 132, 91, 0.15);
+    }
+
+    #player {
+      display: none;
+      width: 100%;
+      margin-top: 24px;
+    }
+
+    #finalMessage {
+      display: none;
+      margin-top: 26px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(215, 208, 184, 0.2);
+      text-align: center;
+      line-height: 1.7;
+      opacity: 0.9;
+    }
+
+    .small {
+      font-size: 12px;
+      opacity: 0.45;
+      text-align: center;
+      margin-top: 25px;
+      letter-spacing: 1px;
+    }
+
+    .blink {
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 45% { opacity: 1; }
+      50%, 100% { opacity: 0.3; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="archive">
+
+    <div class="symbol">🌀</div>
+
+    <h1>ARCHIVES HÉLIXIENNES</h1>
+
+    <div class="subtitle">
+      SYSTÈME D'ARCHIVAGE CIVILISATIONNEL
+    </div>
+
+    <div class="system">
+      <div class="status">
+        INITIALISATION DU TERMINAL...
+      </div>
+
+      <div>
+        ARCHIVE : HLX-02-∆
+      </div>
+
+      <div>
+        DESTINATAIRE : HÉRITIÈRE HUMAINE
+      </div>
+
+      <div class="accepted">
+        IDENTIFICATION : ACCEPTÉE
+      </div>
+
+      <div class="blink">
+        TRANSMISSION DISPONIBLE _
+      </div>
+    </div>
+
+    <button id="launchButton">
+      LANCER LA TRANSMISSION
+    </button>
+
+    <audio id="player" controls>
+      <source src="transmission01.mp3" type="audio/mpeg">
+      Votre navigateur ne prend pas en charge la lecture audio.
+    </audio>
+
+    <div id="finalMessage">
+      <strong>TRANSMISSION TERMINÉE</strong>
+      <br><br>
+      Le prochain fragment attend d'être retrouvé.
+    </div>
+
+    <div class="small">
+      ARCHIVES HÉLIXIENNES // ACCÈS RESTREINT
+    </div>
+
+  </main>
+
+  <script>
+    const button = document.getElementById("launchButton");
+    const player = document.getElementById("player");
+    const finalMessage = document.getElementById("finalMessage");
+
+    button.addEventListener("click", () => {
+      button.style.display = "none";
+      player.style.display = "block";
+      player.play();
+    });
+
+    player.addEventListener("ended", () => {
+      finalMessage.style.display = "block";
+    });
+  </script>
+
+</body>
+</html>
