@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M.E.M.O.I.R.E. — Archives Hélixiennes</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at center, rgba(130,110,70,.14), transparent 55%),
+    #0b0d0c;
+  color: #d7d0b8;
+  font-family: Georgia, "Times New Roman", serif;
+  padding: 20px;
+}
+
+.archive {
+  width: min(850px,100%);
+  border: 1px solid rgba(215,208,184,.35);
+  background: rgba(20,23,21,.96);
+  padding: 32px;
+  box-shadow:
+    0 0 40px rgba(0,0,0,.8),
+    inset 0 0 30px rgba(160,130,70,.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.archive::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 3px,
+      rgba(255,255,255,.015) 4px
+    );
+}
+
+.symbol {
+  text-align: center;
+  font-size: 58px;
+  margin-bottom: 8px;
+}
+
+h1 {
+  text-align: center;
+  letter-spacing: 4px;
+  font-size: 28px;
+  margin: 0 0 8px;
+}
+
+h2 {
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 2px;
+  opacity: .65;
+  margin-bottom: 28px;
+}
+
+.system {
+  font-family: "Courier New", monospace;
+  background: #080a09;
+  border-left: 3px solid #827348;
+  padding: 16px;
+  line-height: 1.7;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.accepted { color: #c9bd83; }
+.warning { color: #d7b39a; }
+
+.archive-note {
+  font-style: italic;
+  border-left: 2px solid rgba(149,132,91,.5);
+  padding-left: 18px;
+  margin: 24px 0;
+  line-height: 1.7;
+}
+
+.progress {
+  margin-bottom: 22px;
+  height: 6px;
+  background: #080a09;
+  border: 1px solid rgba(149,132,91,.45);
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #95845b;
+  transition: width .3s ease;
+}
+
+.counter {
+  font-family: "Courier New", monospace;
+  opacity: .65;
+  margin-bottom: 14px;
+}
+
+.subject-frame {
+  background: #080a09;
+  border: 1px solid rgba(149,132,91,.6);
+  padding: 14px;
+  margin-bottom: 22px;
+  text-align: center;
+}
+
+.subject-frame img {
+  display: block;
+  max-width: 100%;
+  max-height: 580px;
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.input-label {
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  letter-spacing: 1px;
+  margin: 22px 0 8px;
+}
+
+input {
+  width: 100%;
+  background: #080a09;
+  border: 1px solid rgba(149,132,91,.65);
+  color: #e1d7b7;
+  padding: 15px;
+  font-family: "Courier New", monospace;
+  font-size: 15px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #c9bd83;
+  box-shadow: 0 0 12px rgba(149,132,91,.12);
+}
+
+button.action {
+  width: 100%;
+  border: 1px solid #95845b;
+  background: transparent;
+  color: #e1d7b7;
+  padding: 16px;
+  font-size: 15px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: .25s;
+  margin-top: 18px;
+}
+
+button.action:hover {
+  background: rgba(149,132,91,.12);
+  box-shadow: 0 0 18px rgba(149,132,91,.15);
+}
+
+.feedback {
+  display: none;
+  margin-top: 18px;
+  padding: 16px;
+  font-family: "Courier New", monospace;
+  line-height: 1.6;
+  background: #080a09;
+  border-left: 3px solid #827348;
+}
+
+.result {
+  display: none;
+  line-height: 1.8;
+}
+
+audio {
+  display: none;
+  width: 100%;
+  margin-top: 22px;
+}
+
+#transmissionEnd {
+  display: none;
+  margin-top: 24px;
+}
+
+.small {
+  font-size: 12px;
+  opacity: .45;
+  text-align: center;
+  margin-top: 28px;
+  letter-spacing: 1px;
+}
+
+@media (max-width:600px) {
+  .archive { padding: 22px 16px; }
+  .subject-frame img { max-height: 440px; }
+}
+</style>
+</head>
+
+<body>
+<main class="archive">
+
+  <div class="symbol">🌀</div>
+  <h1>M.E.M.O.I.R.E.</h1>
+
+  <div class="subtitle">
+    MODULE D'ÉVALUATION MÉMORIELLE DES OBSERVATIONS, IDENTITÉS, RENCONTRES ET EXPÉDITIONS
+  </div>
+
+  <div id="intro">
+    <div class="system">
+      <div>ARCHIVE MÉMORIELLE : 04-Ψ</div>
+      <div>ÉPREUVE IV : <span class="accepted">PRÊTE</span></div>
+      <div>INDIVIDUS ARCHIVÉS : 7</div>
+      <div>PROCÉDURE : IDENTIFICATION VISUELLE</div>
+    </div>
+
+    <div class="archive-note">
+      <p>
+        Le quiz numéro 4 porte sur les souvenirs que tu as conservés de tes expéditions.
+      </p>
+      <p>
+        Nous avons regroupé plusieurs individus qui devraient t'être familiers.
+        Les Archives les ont toutefois reconstitués selon les standards morphologiques hélixiens.
+      </p>
+      <p>
+        Il te faudra les reconnaître et les nommer.
+      </p>
+      <p><strong>Sept individus. Sept identités à retrouver.</strong></p>
+    </div>
+
+    <button class="action" id="startBtn">
+      OUVRIR L'ARCHIVE MÉMORIELLE
+    </button>
+  </div>
+
+  <div id="trial" style="display:none;">
+    <div class="system">
+      <div>ÉPREUVE IV : ACTIVE</div>
+      <div>OBJECTIF : IDENTIFIER L'INDIVIDU</div>
+      <div class="accepted">TOLÉRANCE ORTHOGRAPHIQUE : ACTIVE</div>
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="counter" id="counter"></div>
+
+    <div class="subject-frame">
+      <img id="subjectImage" src="" alt="Individu hélixien à identifier">
+    </div>
+
+    <div class="input-label">
+      IDENTITÉ PRÉSUMÉE :
+    </div>
+
+    <input
+      id="answerInput"
+      autocomplete="off"
+      spellcheck="false"
+      placeholder="Saisir le nom de l'individu..."
+    >
+
+    <button class="action" id="validateBtn">
+      ANALYSER L'IDENTIFICATION
+    </button>
+
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <div class="result" id="result">
+    <div class="system">
+      <div class="accepted">ÉPREUVE IV : VALIDÉE</div>
+      <div>INTÉGRITÉ MÉMORIELLE : CONFIRMÉE</div>
+      <div>INDIVIDUS IDENTIFIÉS : 7 / 7</div>
+      <div>NOUVELLE TRANSMISSION : <span class="accepted">DÉTECTÉE</span></div>
+    </div>
+
+    <h2>ARCHIVE MÉMORIELLE RESTAURÉE</h2>
+
+    <div class="archive-note">
+      <p>
+        Les individus observés au cours de tes expéditions ont été correctement identifiés.
+      </p>
+      <p>
+        Une nouvelle transmission hélixienne a été détectée.
+      </p>
+      <p>
+        Lance la transmission pour démarrer la prochaine épreuve.
+      </p>
+    </div>
+
+    <button class="action" id="transmissionBtn">
+      LANCER LA TRANSMISSION
+    </button>
+
+    <audio id="player" controls>
+      <source src="audio/transmission04.mp3" type="audio/mpeg">
+      Votre navigateur ne prend pas en charge la lecture audio.
+    </audio>
+
+    <div class="system" id="transmissionEnd">
+      <div class="accepted">TRANSMISSION TERMINÉE</div>
+      <div>INSTRUCTIONS REÇUES</div>
+      <div>PROCÉDURE SUIVANTE : AUTORISÉE</div>
+    </div>
+  </div>
+
+  <div class="small">
+    ARCHIVES HÉLIXIENNES // MODULE M.E.M.O.I.R.E. // ACCÈS IV
+  </div>
+
+</main>
+
+<script>
+const subjects = [
+  {
+    image: "images/big_brother.png",
+    canonical: "BIG BROTHER",
+    aliases: [
+      "big brother", "bigbrother", "big daddy", "bigdaddy",
+      "big dady", "big dadi", "big dad", "big bro", "bigbro",
+      "big brother bioshock", "big daddy bioshock"
+    ]
+  },
+  {
+    image: "images/butch.png",
+    canonical: "BUTCH",
+    aliases: [
+      "butch", "butsch", "bush", "butsh", "butche"
+    ]
+  },
+  {
+    image: "images/dallas.png",
+    canonical: "DALLAS",
+    aliases: [
+      "dallas", "dalas", "dallass", "dalass", "dala"
+    ]
+  },
+  {
+    image: "images/gladiateur.png",
+    canonical: "GLADIATEUR",
+    aliases: [
+      "gladiateur", "gladiator", "gladiateur suinteux",
+      "suinteux gladiateur", "le gladiateur", "gladiateur escargot"
+    ]
+  },
+  {
+    image: "images/molhu.png",
+    canonical: "MOLHU",
+    aliases: [
+      "molhu", "molu", "molou", "molhue", "molhuu",
+      "molh", "mohu", "mollu"
+    ]
+  },
+  {
+    image: "images/katsuyou.png",
+    canonical: "KATSUYOU",
+    aliases: [
+      "katsuyou", "katsuyu", "katsuyô", "katsuyo",
+      "katsouyou", "katsouyo", "katsouyu", "katsuyuu",
+      "katsou", "katsyu"
+    ]
+  },
+  {
+    image: "images/fargoth.png",
+    canonical: "FARGOTH",
+    aliases: [
+      "fargoth", "fargot", "fargotte", "fargoth morrowind",
+      "fargot morrowind", "fargoth de morrowind"
+    ]
+  }
+];
+
+let current = 0;
+
+const intro = document.getElementById("intro");
+const trial = document.getElementById("trial");
+const result = document.getElementById("result");
+const image = document.getElementById("subjectImage");
+const input = document.getElementById("answerInput");
+const feedback = document.getElementById("feedback");
+const counter = document.getElementById("counter");
+const progressBar = document.getElementById("progressBar");
+const validateBtn = document.getElementById("validateBtn");
+const transmissionBtn = document.getElementById("transmissionBtn");
+const player = document.getElementById("player");
+const transmissionEnd = document.getElementById("transmissionEnd");
+
+function normalize(text) {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+}
+
+function levenshtein(a, b) {
+  const matrix = Array.from(
+    { length: b.length + 1 },
+    () => Array(a.length + 1).fill(0)
+  );
+
+  for (let i = 0; i <= b.length; i++) matrix[i][0] = i;
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      const cost = b[i - 1] === a[j - 1] ? 0 : 1;
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,
+        matrix[i][j - 1] + 1,
+        matrix[i - 1][j - 1] + cost
+      );
+    }
+  }
+  return matrix[b.length][a.length];
+}
+
+function isAccepted(answer, subject) {
+  const value = normalize(answer);
+  if (!value) return false;
+
+  const candidates = [
+    subject.canonical,
+    ...subject.aliases
+  ].map(normalize);
+
+  return candidates.some(candidate => {
+    if (value === candidate) return true;
+
+    // Accepte les formulations comme "c'est Fargoth" ou "le Big Daddy".
+    if (value.length >= 4 && (value.includes(candidate) || candidate.includes(value))) {
+      const lengthGap = Math.abs(value.length - candidate.length);
+      if (lengthGap <= 8) return true;
+    }
+
+    // Tolérance aux fautes de frappe.
+    const distance = levenshtein(value, candidate);
+    const maxDistance =
+      candidate.length <= 5 ? 1 :
+      candidate.length <= 8 ? 2 :
+      3;
+
+    return distance <= maxDistance;
+  });
+}
+
+function showSubject() {
+  const subject = subjects[current];
+
+  counter.textContent = `INDIVIDU ${current + 1} / ${subjects.length}`;
+  progressBar.style.width = `${(current / subjects.length) * 100}%`;
+  image.src = subject.image;
+  image.alt = `Archive visuelle ${current + 1}`;
+  input.value = "";
+  feedback.style.display = "none";
+  feedback.innerHTML = "";
+  input.focus();
+}
+
+function validateAnswer() {
+  const subject = subjects[current];
+
+  feedback.style.display = "block";
+
+  if (isAccepted(input.value, subject)) {
+    feedback.innerHTML = `
+      <div class="accepted">IDENTIFICATION ACCEPTÉE.</div>
+      <br>
+      Concordance mémorielle confirmée :
+      <strong>${subject.canonical}</strong>.
+    `;
+
+    validateBtn.disabled = true;
+    input.disabled = true;
+
+    setTimeout(() => {
+      current++;
+
+      if (current < subjects.length) {
+        validateBtn.disabled = false;
+        input.disabled = false;
+        showSubject();
+      } else {
+        progressBar.style.width = "100%";
+        trial.style.display = "none";
+        result.style.display = "block";
+      }
+    }, 850);
+
+  } else {
+    feedback.innerHTML = `
+      <div class="warning">IDENTIFICATION NON RECONNUE.</div>
+      <br>
+      Les Archives ne trouvent aucune concordance suffisante.
+      <br>
+      Nouvelle tentative autorisée.
+    `;
+    input.select();
+  }
+}
+
+document.getElementById("startBtn").onclick = () => {
+  intro.style.display = "none";
+  trial.style.display = "block";
+  showSubject();
+};
+
+validateBtn.onclick = validateAnswer;
+
+input.addEventListener("keydown", event => {
+  if (event.key === "Enter" && !validateBtn.disabled) {
+    validateAnswer();
+  }
+});
+
+transmissionBtn.onclick = () => {
+  transmissionBtn.style.display = "none";
+  player.style.display = "block";
+  player.play().catch(() => {
+    // Le lecteur reste affiché si le navigateur refuse l'autoplay.
+  });
+};
+
+player.addEventListener("ended", () => {
+  transmissionEnd.style.display = "block";
+});
+</script>
+</body>
+</html>
